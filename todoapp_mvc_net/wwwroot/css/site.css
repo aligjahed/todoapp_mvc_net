@@ -1,0 +1,178 @@
+
+html {
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+p {
+    margin: 0;
+}
+
+
+/* Helper Classes */
+.flex {
+    display: flex;
+}
+
+.flex-jc-c {
+    justify-content: center;
+}
+
+.flex-jc-end {
+    justify-content: end;
+}
+
+.flex-ai-c {
+    align-items: center;
+}
+
+.flex-ai-end {
+    align-items: end;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+/*---------------*/
+.sidebar {
+
+}
+
+.profileSec {
+
+}
+
+.profilePic {
+    width: 50px;
+    height: 50px;
+    border: solid 3px white;
+    border-radius: 50%;
+}
+
+.bi-person {
+    width: 50px;
+}
+
+.divider {
+    background-color: black !important;
+    width: 100px;
+    height: 2px;
+}
+
+.listHeader {
+    background: linear-gradient(to right, #8b17ff, #8100bb);
+    color: white;
+    height: 250px;
+}
+
+.listHeader h2 {
+    font-size: 45px;
+}
+
+.listHeader p {
+    font-size: 20px;
+}
+
+
+.todoSec {
+    height: 60vh !important;
+    overflow-x: hidden;
+}
+
+.todo-done-btn {
+    margin-left: 10px;
+    width: 10px;
+    border-radius: 50%;
+    text-align: center;
+    transition: all 200ms ease-in-out;
+
+}
+
+.todo-done {
+    border: 2px solid purple;
+    color: purple;
+}
+
+.todo-done-filled {
+    background-color: purple;
+    color: white;
+}
+
+.todo-done-btn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: purple;
+}
+
+.todo-remove {
+    color: red;
+}
+
+.todo-remove:hover {
+    cursor: pointer;
+}
+
+.todoBody{
+    width: 60vw;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.mainBody{
+    margin-top: -150px;
+}
+
+
+.title{
+    color: white;
+    width: 60vw;
+}
+
+.color-primary + .color-primary:focus{
+    background-color: rebeccapurple !important;
+    border-color: rebeccapurple !important;
+}
+
+.color-outline-primary{
+    color: rebeccapurple;
+    border-color: rebeccapurple;
+}
+
+.color-outline-primary{
+    
+}
+
+@media (max-width: 575px){
+    .mainBody{
+        margin-top: -200px;
+    }
+    
+    .todoBody{
+        width: 90vw;
+    }
+    
+    .title{
+        width: 90vw;
+    }
+}
