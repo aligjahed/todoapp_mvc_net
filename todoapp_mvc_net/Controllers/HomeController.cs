@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using todoapp_mvc_net.DB;
 using todoapp_mvc_net.Models;
@@ -10,14 +11,23 @@ namespace todoapp_mvc_net.Controllers;
 public class HomeController : Controller
 {
     private readonly ISender _mediatr;
+    private readonly UserManager<UserModel> _userManager;
+    private readonly SignInManager<UserModel> _signInManager;
 
-    public HomeController(ISender mediatr)
+    public HomeController(ISender mediatr, UserManager<UserModel> userManager, SignInManager<UserModel> signInManager)
     {
         _mediatr = mediatr;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
     public async Task<IActionResult> Index(int? sortBy)
     {
+        if (!_signInManager.IsSignedIn(User))
+        {
+            return RedirectToPage("/Identity/Account/Login");
+        }
+        
         ViewData["sort"] = sortBy;
         var todos = await _mediatr.Send(new GetAllTodosQuery());
 
