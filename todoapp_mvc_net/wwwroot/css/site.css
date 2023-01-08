@@ -133,6 +133,7 @@ p {
 }
 
 .todoBody{
+    height: 75vh;
     width: 60vw;
     background-color: white;
     border-radius: 20px;

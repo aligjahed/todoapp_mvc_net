@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using todoapp_mvc_net.DB;
@@ -8,6 +9,7 @@ using todoapp_mvc_net.Services.TodoServices.Queries;
 
 namespace todoapp_mvc_net.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ISender _mediatr;
@@ -25,9 +27,9 @@ public class HomeController : Controller
     {
         if (!_signInManager.IsSignedIn(User))
         {
-            return RedirectToPage("/Identity/Account/Login");
+            return Redirect(Url.Page("/Account/Login", new { area = "Identity" }));
         }
-        
+
         ViewData["sort"] = sortBy;
         var todos = await _mediatr.Send(new GetAllTodosQuery());
 
@@ -41,7 +43,7 @@ public class HomeController : Controller
                 break;
             case 2:
                 var todosAscending = from todo in todos
-                    orderby todo.IsDone ascending 
+                    orderby todo.IsDone ascending
                     select todo;
                 todos = todosAscending.ToList();
                 break;

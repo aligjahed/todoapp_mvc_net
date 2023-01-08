@@ -1,6 +1,7 @@
 using System.Reflection;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using todoapp_mvc_net.DB;
 using todoapp_mvc_net.Models;
@@ -14,18 +15,26 @@ public static class ConfigureServices
     {
         services.AddControllersWithViews();
         services.AddDbContext<DataContext>();
-        services.AddIdentity<UserModel, IdentityRole>()
+        services.AddRazorPages();
+        services.AddIdentity<UserModel, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
+            })
             .AddEntityFrameworkStores<DataContext>()
+            .AddDefaultUI()
             .AddDefaultTokenProviders();
         services.AddMediatR(Assembly.GetExecutingAssembly());
-        services.AddScoped<TodoListService>();
         services.AddScoped<TodoService>();
+        services.AddScoped<TodoListService>();
 
-        services.Configure<IdentityOptions>(options =>
-        {
-            options.User.RequireUniqueEmail = true;
-            options.SignIn.RequireConfirmedAccount = false;
-        });
+        // services.Configure<IdentityOptions>(options =>
+        // {
+        //     options.User.RequireUniqueEmail = true;
+        //     options.SignIn.RequireConfirmedAccount = false;
+        //     options.SignIn.RequireConfirmedEmail = false;
+        // });
         return services;
     }
 }

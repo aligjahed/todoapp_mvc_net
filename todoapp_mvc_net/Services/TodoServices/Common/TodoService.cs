@@ -1,43 +1,74 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using todoapp_mvc_net.DB;
 using todoapp_mvc_net.Models;
+using System.Security.Claims;
+
 
 namespace todoapp_mvc_net.Services.Common;
 
 public class TodoService
 {
     private readonly DataContext _context;
+    private readonly SignInManager<UserModel> _signInManager;
+    private readonly UserManager<UserModel> _userManager;
 
-    public TodoService(DataContext context)
+    public TodoService(DataContext context, SignInManager<UserModel> signInManager, UserManager<UserModel> userManager)
     {
         _context = context;
+        _signInManager = signInManager;
+        _userManager = userManager;
     }
 
     public async Task<List<TodoModel>> GetAllTodo()
     {
-        var todos = await _context.Todos.ToListAsync();
-        return todos;
+        var userID = _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _context.Users
+            .Include(x => x.Todos)
+            .FirstOrDefaultAsync(x => x.Id == userID);
+        return user.Todos;
     }
-    
+
     public async Task AddTodo(string title)
     {
-        var todo = new TodoModel { Id = Guid.NewGuid(), Title = title };
+        var userID = _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var todo = new TodoModel
+            { Id = Guid.NewGuid(), Title = title, User = await _userManager.FindByIdAsync(userID) };
         await _context.Todos.AddAsync(todo);
         await _context.SaveChangesAsync();
     }
 
     public async Task FinishTodo(Guid reqId)
     {
-        var reqTodo = await _context.Todos.FirstOrDefaultAsync(x => x.Id == reqId);
-        reqTodo.IsDone = true;
-        await _context.SaveChangesAsync();
+        var userID = _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var reqTodo = await _context.Todos
+            .Include(x => x.User)
+            .FirstOrDefaultAsync(x => x.Id == reqId);
+        if (reqTodo.User.Id == userID)
+        {
+            reqTodo.IsDone = true;
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new Exception("You're not allowed to make change to this entity.");
+        }
     }
 
     public async Task RemoveTodo(Guid reqId)
     {
-        var reqTodo = await _context.Todos.FirstOrDefaultAsync(x => x.Id == reqId);
-        _context.Remove(reqTodo);
-        await _context.SaveChangesAsync();
+        var userID = _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var reqTodo = await _context.Todos
+            .Include(x => x.User)
+            .FirstOrDefaultAsync(x => x.Id == reqId);
+        if (reqTodo.User.Id == userID)
+        {
+            _context.Todos.Remove(reqTodo);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new Exception("You're not allowed to make change to this entity.");
+        }
     }
-
 }

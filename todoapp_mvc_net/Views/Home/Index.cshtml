@@ -1,4 +1,5 @@
-﻿@model List<TodoModel>
+﻿@using Microsoft.AspNetCore.Identity
+@model List<TodoModel>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -12,12 +13,18 @@
             <h2 class="">Todo App</h2>
             <p>@DateTime.Today.DayOfWeek, @DateTime.Now.Date.Day/@DateTime.Now.Date.Month</p>
         </div>
-        <div class="profilePic flex align-items-center text-center">
-            <i class="bi bi-person "></i>
+        <div class="flex flex-col">
+            <p class="mb-2">
+                Welcome
+                <span>
+                    <a class="link-primary" href="/Identity/Account/Manage">@(User.Identity.Name)</a>
+                </span>
+            </p>
+            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Logout" methods="post">Logout</a>
         </div>
     </div>
     <div class="p-4 todoBody">
-        <form asp-action="Add"  asp-controller="Todo" method="post" class="needs-validation mb-4" novalidate>
+        <form asp-action="Add" asp-controller="Todo" method="post" class="needs-validation mb-4" novalidate>
             <div class="input-group">
                 <input name="todo" type="text" class="form-control p-3" placeholder="Add New Todo" required>
                 <button class="btn btn-outline-primary " type="submit">Submit</button>
@@ -47,17 +54,17 @@
             }
             <ul class="dropdown-menu">
                 <li>
-                    <a class="dropdown-item" href="@Url.Action("Index" , "Home")">Sort By Time</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Home")">Sort By Time</a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="@Url.Action("Index" , "Home" , new {sortBy = 2})">Sort By Ongoing</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Home", new { sortBy = 2 })">Sort By Ongoing</a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="@Url.Action("Index" , "Home" , new {sortBy = 1})">Sort By Done</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Home", new { sortBy = 1 })">Sort By Done</a>
                 </li>
             </ul>
         </div>
-        @if (Model.Count != 0)
+        @if (Model.Count != 0 && Model is not null)
         {
             <div class="todoSec">
                 @foreach (var todo in Model)
@@ -75,7 +82,7 @@
                                     else
                                     {
                                         <a class="todo-done-btn todo-done col-auto flex flex-ai-c flex-jc-c "
-                                           href="@Url.Action("Finish", "Todo", new { id = todo.Id , sortBy = ViewData["sort"] })">
+                                           href="@Url.Action("Finish", "Todo", new { id = todo.Id, sortBy = ViewData["sort"] })">
                                             <i class="bi bi-check "></i>
                                         </a>
                                     }
@@ -83,7 +90,7 @@
                                 </div>
                                 <p>@todo.CreatedAt</p>
                             </div>
-                            <a class="col-auto flex flex-col justify-content-center" href="@Url.Action("Remove", "Todo", new { id = todo.Id , sortBy = ViewData["sort"] })">
+                            <a class="col-auto flex flex-col justify-content-center" href="@Url.Action("Remove", "Todo", new { id = todo.Id, sortBy = ViewData["sort"] })">
                                 <i class="bi bi-bucket todo-remove"></i>
                             </a>
                         </div>
