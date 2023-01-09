@@ -5,13 +5,18 @@ using System.IO;
 
 namespace todoapp_mvc_net.Services.MigrationService;
 
-public class MigrationService
+public class DatabaseService
 {
     private readonly DataContext _context;
 
-    public MigrationService(DataContext context)
+    public DatabaseService(DataContext context)
     {
         _context = context;
+    }
+
+    public async Task<bool> IsDatabaseConnected()
+    {
+        return await _context.Database.CanConnectAsync();
     }
 
     public async Task ApplyMigrationsFromScript()

@@ -8,7 +8,6 @@ public class DataContext : IdentityDbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
-        
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,9 +28,17 @@ public class DataContext : IdentityDbContext
         var MYSQLPORT = Environment.GetEnvironmentVariable("MYSQLPORT");
         var MYSQLUSER = Environment.GetEnvironmentVariable("MYSQLUSER");
 
-        var connectionString = $"Server={MYSQLHOST};Port={MYSQLPORT};Database={MYSQLDATABASE};Uid={MYSQLUSER};Pwd={MYSQLPASSWORD};";
+        var connectionString =
+            $"Server={MYSQLHOST};Port={MYSQLPORT};Database={MYSQLDATABASE};Uid={MYSQLUSER};Pwd={MYSQLPASSWORD};";
 
-        optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        try
+        {
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        }
+        catch
+        {
+            throw new Exception($"Database Connection With {connectionString} Failed");
+        }
     }
 
     public DbSet<UserModel> Users { get; set; }

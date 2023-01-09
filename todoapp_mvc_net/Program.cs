@@ -49,8 +49,15 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    var migrationService = services.GetService<MigrationService>();
-    migrationService.ApplyMigrationsFromScript();
+    var databaseService = services.GetService<DatabaseService>();
+    if (await databaseService.IsDatabaseConnected())
+    {
+        await databaseService.ApplyMigrationsFromScript();
+    }
+    else
+    {
+        throw new Exception("Can't Connect to database");
+    }
 }
 
 app.Run();
