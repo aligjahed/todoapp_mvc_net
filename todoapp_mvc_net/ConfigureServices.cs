@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using todoapp_mvc_net.DB;
 using todoapp_mvc_net.Models;
 using todoapp_mvc_net.Services.Common;
+using todoapp_mvc_net.Services.MigrationService;
 
 namespace todoapp_mvc_net;
 
@@ -27,6 +28,7 @@ public static class ConfigureServices
             .AddDefaultTokenProviders();
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddScoped<TodoService>();
+        services.AddScoped<MigrationService>();
 
         // services.Configure<IdentityOptions>(options =>
         // {

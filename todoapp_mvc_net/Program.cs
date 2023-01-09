@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using todoapp_mvc_net;
 using todoapp_mvc_net.DB;
 using Microsoft.AspNetCore.Identity;
+using todoapp_mvc_net.Services.MigrationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddWebUi();
 
 var app = builder.Build();
-
-
 
 
 // Configure the HTTP request pipeline.
@@ -46,5 +45,12 @@ app.MapRazorPages();
 //         context.Database.Migrate();
 //     }
 // }
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var migrationService = services.GetService<MigrationService>();
+    migrationService.ApplyMigrationsFromScript();
+}
 
 app.Run();

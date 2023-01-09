@@ -16,7 +16,7 @@ public class DataContext : IdentityDbContext
         base.OnConfiguring(optionsBuilder);
 
         // only for dev
-        // var connectionStr = "Server=localhost;Database=tododb;Uid=root;Pwd=Ali.958918;";
+        // var connectionStr = "Server=localhost;Database=;Uid=root;Pwd=;";
         // optionsBuilder
         //     //.UseSqlServer("server=localhost\\SQLEXPRESS;Database=tododb;Trusted_Connection=true;TrustServerCertificate=true;");
         //     //.UseSqlServer("server=localhost;Database=tododb;Trusted_Connection=true;TrustServerCertificate=true;");
