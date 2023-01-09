@@ -35,11 +35,11 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-// Apply migrations at runtime
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
-    db.Database.Migrate();
-}
+// // Apply migrations at runtime
+// using (var scope = app.Services.CreateScope())
+// {
+//     var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+//     db.Database.Migrate();
+// }
 
 app.Run();
