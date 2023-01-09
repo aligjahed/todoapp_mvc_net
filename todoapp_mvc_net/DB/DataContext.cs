@@ -14,9 +14,16 @@ public class DataContext : IdentityDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
+        
+        // only for dev
+        
+        // optionsBuilder
+        //     //.UseSqlServer("server=localhost\\SQLEXPRESS;Database=tododb;Trusted_Connection=true;TrustServerCertificate=true;");
+        //     .UseSqlServer("server=localhost;Database=tododb;Trusted_Connection=true;TrustServerCertificate=true;");
+        
+        // production
         optionsBuilder
-            //.UseSqlServer("server=localhost\\SQLEXPRESS;Database=tododb;Trusted_Connection=true;TrustServerCertificate=true;");
-            .UseSqlServer("server=localhost;Database=tododb;Trusted_Connection=true;TrustServerCertificate=true;");
+            .UseSqlServer("mysql://root:QOEL80TXPdpWcKC6yzwl@containers-us-west-16.railway.app:6849/railway");
     }
 
     public DbSet<UserModel> Users { get; set; }
