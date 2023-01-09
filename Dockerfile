@@ -8,7 +8,7 @@ WORKDIR /src
 COPY ["todoapp_mvc_net/todoapp_mvc_net.csproj", "todoapp_mvc_net/"]
 RUN dotnet restore "todoapp_mvc_net/todoapp_mvc_net.csproj"
 COPY . .
-WORKDIR "/src/todoapp_mvc_met"
+WORKDIR "/src/todoapp_mvc_net"
 RUN dotnet build "todoapp_mvc_net.csproj" -c Release -o /app/build
 
 FROM build AS publish
