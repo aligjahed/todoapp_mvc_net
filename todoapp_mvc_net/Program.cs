@@ -6,17 +6,12 @@ using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 
-
 // Add services to the container.
 builder.Services.AddWebUi();
 
-
 var app = builder.Build();
 
-// builder.Services.AddDbContext<DataContext>(opt =>
-// {
-//     opt.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-// });
+
 
 
 // Configure the HTTP request pipeline.
@@ -39,5 +34,12 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
+// Apply migrations at runtime
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
