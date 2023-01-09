@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 ENV Port $PORT
-ENV ASPNETCORE_URLS=http://+:$Port
+ENV ASPNETCORE_URLS=http://+:$PORT
 EXPOSE $Port
 EXPOSE $PORT
 
