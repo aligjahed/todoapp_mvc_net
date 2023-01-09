@@ -27,7 +27,6 @@ public static class ConfigureServices
             .AddDefaultTokenProviders();
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddScoped<TodoService>();
-        services.AddScoped<TodoListService>();
 
         // services.Configure<IdentityOptions>(options =>
         // {

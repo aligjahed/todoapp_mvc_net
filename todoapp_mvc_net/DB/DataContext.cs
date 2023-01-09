@@ -14,16 +14,24 @@ public class DataContext : IdentityDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        
+
         // only for dev
-        
+        // var connectionStr = "Server=localhost;Database=tododb;Uid=root;Pwd=Ali.958918;";
         // optionsBuilder
         //     //.UseSqlServer("server=localhost\\SQLEXPRESS;Database=tododb;Trusted_Connection=true;TrustServerCertificate=true;");
-        //     .UseSqlServer("server=localhost;Database=tododb;Trusted_Connection=true;TrustServerCertificate=true;");
-        
+        //     //.UseSqlServer("server=localhost;Database=tododb;Trusted_Connection=true;TrustServerCertificate=true;");
+        //     .UseMySql(connectionStr , ServerVersion.AutoDetect(connectionStr));
+
         // production
-        optionsBuilder
-            .UseSqlServer("mysql://root:QOEL80TXPdpWcKC6yzwl@containers-us-west-16.railway.app:6849/railway");
+        var MYSQLDATABASE = Environment.GetEnvironmentVariable("MYSQLDATABASE");
+        var MYSQLHOST = Environment.GetEnvironmentVariable("MYSQLHOST");
+        var MYSQLPASSWORD = Environment.GetEnvironmentVariable("MYSQLPASSWORD");
+        var MYSQLPORT = Environment.GetEnvironmentVariable("MYSQLPORT");
+        var MYSQLUSER = Environment.GetEnvironmentVariable("MYSQLUSER");
+
+        var connectionString = $"Server={MYSQLHOST};Port={MYSQLPORT};Database={MYSQLDATABASE};Uid={MYSQLUSER};Pwd={MYSQLPASSWORD};";
+
+        optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     }
 
     public DbSet<UserModel> Users { get; set; }
