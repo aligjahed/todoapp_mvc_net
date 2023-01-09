@@ -8,8 +8,8 @@ COPY ["todoapp_mvc_net/todoapp_mvc_net.csproj", "todoapp_mvc_net/"]
 RUN dotnet restore "todoapp_mvc_net/todoapp_mvc_net.csproj"
 COPY . .
 WORKDIR "/src/todoapp_mvc_net"
-RUN dotnet tool install dotnet-ef
-RUN dotnet ef database update
+RUN dotnet tool install --global dotnet-ef
+RUN dotnet ef database update 
 RUN dotnet build "todoapp_mvc_net.csproj" -c Release -o /app/build
 
 FROM build AS publish
