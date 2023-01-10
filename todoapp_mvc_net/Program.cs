@@ -20,14 +20,14 @@ using (var config = builder.Configuration)
     }
     else
     {
-        var MYSQLDATABASE = Environment.GetEnvironmentVariable("MYSQLDATABASE");
-        var MYSQLHOST = Environment.GetEnvironmentVariable("MYSQLHOST");
-        var MYSQLPASSWORD = Environment.GetEnvironmentVariable("MYSQLPASSWORD");
-        var MYSQLPORT = Environment.GetEnvironmentVariable("MYSQLPORT");
-        var MYSQLUSER = Environment.GetEnvironmentVariable("MYSQLUSER");
+        var MYSQLHOST = Environment.GetEnvironmentVariable("HOST");
+        var MYSQLPORT = Environment.GetEnvironmentVariable("PORT");
+        var MYSQLNAME = Environment.GetEnvironmentVariable("NAME");
+        var MYSQLUSERNAME = Environment.GetEnvironmentVariable("USERNAME");
+        var MYSQLPASSWORD = Environment.GetEnvironmentVariable("PASS");
 
         var connectionString =
-            $"Server={MYSQLHOST};Port={MYSQLPORT};Database={MYSQLDATABASE};Uid={MYSQLUSER};Pwd={MYSQLPASSWORD};";
+            $"Server={MYSQLHOST};Port={MYSQLPORT};Database={MYSQLNAME};Uid={MYSQLUSERNAME};Pwd={MYSQLPASSWORD};";
 
         try
         {
@@ -75,5 +75,8 @@ using (var scope = app.Services.CreateScope())
 {
     await scope.ServiceProvider.GetService<DataContext>().Database.MigrateAsync();
 }
+
+// For deployment without docker
+Environment.SetEnvironmentVariable("ASPNETCORE_URLS" , "http://+:8080");
 
 app.Run();

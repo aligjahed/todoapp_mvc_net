@@ -1,0 +1,6 @@
+{
+  "platform": "netcore",
+  "netcore": {
+    "version": "7.0"
+  }
+}
