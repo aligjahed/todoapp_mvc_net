@@ -6,6 +6,7 @@ using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Adding Database Context
 using (var config = builder.Configuration)
 {
@@ -75,8 +76,5 @@ using (var scope = app.Services.CreateScope())
 {
     await scope.ServiceProvider.GetService<DataContext>().Database.MigrateAsync();
 }
-
-// For deployment without docker
-Environment.SetEnvironmentVariable("ASPNETCORE_URLS" , "http://+:8080");
 
 app.Run();

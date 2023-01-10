@@ -69,6 +69,9 @@ namespace todoapp_mvc_net.Areas.Identity.Pages.Account.Manage
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }else if (user.Email == "test@test.com")
+            {
+                return NotFound("This action is not available for the test account. Please login with your own account to perform this action.");
             }
 
             RequirePassword = await _userManager.HasPasswordAsync(user);

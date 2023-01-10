@@ -30,17 +30,19 @@
                 </label>
             </div>
             <div>
-                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-            </div>
-            <div>
-                <p>
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                </p>
-                <p>
-                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                </p>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary mb-2">Log in</button>
             </div>
         </form>
+        <form id="test-account" method="post">
+            <input asp-for="Input.Email" value="test@test.com" class="visually-hidden"/>
+            <input asp-for="Input.Password" value="Testacc.1234" class="visually-hidden"/>
+            <button id="login-submit-test" type="submit" class="w-100 btn btn-lg btn-warning mb-2">Log in as test account</button>
+        </form>
+        <div>
+            <p>
+                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+            </p>
+        </div>
     </div>
 </div>
 
