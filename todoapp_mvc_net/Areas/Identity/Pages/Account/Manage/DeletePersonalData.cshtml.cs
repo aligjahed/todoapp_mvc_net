@@ -82,7 +82,7 @@ namespace todoapp_mvc_net.Areas.Identity.Pages.Account.Manage
         {
             //var user = await _userManager.GetUserAsync(User);
             var reqUserID = _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _context.Users
+            var user = await _context.TodoAppUsers
                 .Include(x => x.Todos)
                 .FirstOrDefaultAsync(x => x.Id == reqUserID);
             
@@ -104,7 +104,7 @@ namespace todoapp_mvc_net.Areas.Identity.Pages.Account.Manage
             // Remove all todos related to this person
             foreach (var todo in user.Todos)
             {
-                _context.Todos.Remove(todo);
+                _context.TodoAppTodos.Remove(todo);
             }
             
             var result = await _userManager.DeleteAsync(user);

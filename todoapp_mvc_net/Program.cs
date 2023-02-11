@@ -12,7 +12,6 @@ using (var config = builder.Configuration)
 {
     if (builder.Environment.IsDevelopment())
     {
-        Console.WriteLine("Development DB Setup");
         var connectionString = config.GetConnectionString("MYSQL");
         builder.Services.AddDbContext<DataContext>(options =>
         {

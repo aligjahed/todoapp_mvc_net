@@ -10,6 +10,6 @@ public class DataContext : IdentityDbContext
     {
     }
 
-    public DbSet<UserModel> Users { get; set; }
-    public DbSet<TodoModel> Todos { get; set; }
+    public DbSet<UserModel> TodoAppUsers { get; set; }
+    public DbSet<TodoModel> TodoAppTodos { get; set; }
 }

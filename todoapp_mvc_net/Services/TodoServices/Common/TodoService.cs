@@ -23,7 +23,7 @@ public class TodoService
     public async Task<List<TodoModel>> GetAllTodo()
     {
         var userID = _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var user = await _context.Users
+        var user = await _context.TodoAppUsers
             .Include(x => x.Todos)
             .FirstOrDefaultAsync(x => x.Id == userID);
         return user.Todos;
@@ -34,14 +34,14 @@ public class TodoService
         var userID = _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
         var todo = new TodoModel
             { Id = Guid.NewGuid(), Title = title, User = await _userManager.FindByIdAsync(userID) };
-        await _context.Todos.AddAsync(todo);
+        await _context.TodoAppTodos.AddAsync(todo);
         await _context.SaveChangesAsync();
     }
 
     public async Task FinishTodo(Guid reqId)
     {
         var userID = _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var reqTodo = await _context.Todos
+        var reqTodo = await _context.TodoAppTodos
             .Include(x => x.User)
             .FirstOrDefaultAsync(x => x.Id == reqId);
         if (reqTodo.User.Id == userID)
@@ -58,12 +58,12 @@ public class TodoService
     public async Task RemoveTodo(Guid reqId)
     {
         var userID = _signInManager.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var reqTodo = await _context.Todos
+        var reqTodo = await _context.TodoAppTodos
             .Include(x => x.User)
             .FirstOrDefaultAsync(x => x.Id == reqId);
         if (reqTodo.User.Id == userID)
         {
-            _context.Todos.Remove(reqTodo);
+            _context.TodoAppTodos.Remove(reqTodo);
             await _context.SaveChangesAsync();
         }
         else
